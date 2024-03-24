@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Added by Toolbox App
+export PATH="$PATH:/home/colawithsauce/.local/share/JetBrains/Toolbox/scripts"
