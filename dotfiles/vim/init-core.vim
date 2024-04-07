@@ -66,7 +66,9 @@ set cursorline
 autocmd VimEnter * ++nested set t_Co=256
 autocmd VimEnter * ++nested set termguicolors
 autocmd VimEnter * ++nested let g:airline_theme='catppuccin'
-autocmd VimEnter * ++nested color catppuccin_latte
+autocmd VimEnter * ++nested color catppuccin_frappe
+autocmd VimEnter * ++nested hi Normal guibg=NONE ctermbg=NONE
+autocmd VimEnter * ++nested hi EndOfBuffer guibg=NONE ctermbg=NONE
 " autocmd VimEnter * ++nested hi CursorLine term=bold cterm=bold guibg=Grey10
 " set cursorlineopt=screenline
 
