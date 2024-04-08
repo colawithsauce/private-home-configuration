@@ -258,7 +258,7 @@ in
     };
 
     viAlias = true;
-    vimAlias = true;
+    vimAlias = false; # I use vim for non lsp configuration
 
     opts = {
       number = true; # Show line numbers
@@ -285,6 +285,7 @@ in
       rooter_patterns = [ ".git" "_darcs" ".hg" ".bzr" ".svn" "Makefile" "package.json" ".root" ".envrc" ];
     };
 
+    # TODO Use codeium <C-a> to accept after all configuration. currently it was overlapped by other keymap.
     extraConfigLuaPost = ''
       require('tabout').setup {
         tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable

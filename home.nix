@@ -90,7 +90,7 @@ in
 
     virtualbox
   ] ++ [
-    # (vim_configurable.customize myvim_config)
+    (vim_configurable.customize myvim_config)
     jetbrains-toolbox
   ];
 
@@ -157,9 +157,6 @@ in
         }))
       ;
     };
-  };
-  services.emacs = {
-    enable = true;
   };
 
   programs.autojump = {
