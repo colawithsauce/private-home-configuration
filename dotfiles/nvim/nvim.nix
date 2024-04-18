@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 let
   nixvim = import (builtins.fetchGit {
     url = "https://github.com/nix-community/nixvim";
@@ -17,7 +17,7 @@ let
 in
 {
   imports = [
-    nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeManagerModules.nixvim
   ];
 
   programs.nixvim = {
@@ -34,6 +34,10 @@ in
       litee-nvim
       litee-calltree-nvim
       litee-symboltree-nvim
+      base16-nvim
+      vim-airline-themes
+      vim-localvimrc
+      nvim-web-devicons
       {
         plugin = neo-tree-nvim;
         config = ''
@@ -57,7 +61,7 @@ in
                   leave_dirs_open = true,
                 },
               },
-            } 
+            }
           EOF
         '';
       }
@@ -125,17 +129,19 @@ in
       }
     ];
 
+    # colorschemes.vscode.enable = true;
     colorschemes.catppuccin = {
       enable = true;
-      flavour = "frappe";
-      terminalColors = true;
-      transparentBackground = true;
-      showBufferEnd = true;
+      settings = {
+        transparent_background = true;
+        flavour = "latte";
+        term_colors = true;
+        show_end_of_buffer = true;
+      };
     };
 
     plugins = {
-      airline.enable = true;
-      airline.settings.theme = "catppuccin";
+      lualine.enable = true;
       commentary.enable = true;
       cmp.enable = true;
       surround.enable = true;
@@ -168,6 +174,7 @@ in
           { name = "cmp_tabnine"; }
         ];
       };
+      direnv.enable = true;
       fzf-lua.enable = true;
       fzf-lua.keymaps = {
         "<leader>ff" = {
@@ -251,7 +258,7 @@ in
           next = "<M-]";
         };
         settings = {
-          disable_bindings = false;
+          disable_bindings = true;
           manual = true;
         };
       };
@@ -285,7 +292,6 @@ in
       rooter_patterns = [ ".git" "_darcs" ".hg" ".bzr" ".svn" "Makefile" "package.json" ".root" ".envrc" ];
     };
 
-    # TODO Use codeium <C-a> to accept after all configuration. currently it was overlapped by other keymap.
     extraConfigLuaPost = ''
       require('tabout').setup {
         tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
@@ -308,10 +314,45 @@ in
         exclude = {} -- tabout will ignore these filetypes
       }
 
-      -- configure the litee.nvim library 
+      -- configure the litee.nvim library
       require('litee.lib').setup({})
       -- configure litee-calltree.nvim
       require('litee.calltree').setup({})
+
+      -- terminal
+      vim.opt.shell='/usr/bin/env fish'
+
+      -- configure codeium keymaps
+      vim.keymap.set('i', '<C-;>', function () return vim.fn['codeium#CycleOrComplete']() end, {expr = true})
+      vim.keymap.set('i', '<C-a>', function () return vim.fn['codeium#Accept']() end, {expr = true})
+
+      -- configure tabby
+      vim.o.showtabline = 2
+      vim.api.nvim_set_keymap("n", "<leader><tab><tab>", ":tabs<cr>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>c", ":$tabnew<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>n", ":$tabnew<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>d", ":tabclose<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>o", ":tabonly<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>j", ":tabn<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader><tab>k", ":tabp<CR>", { noremap = true })
+      -- move current tab to previous position
+      vim.api.nvim_set_keymap("n", "<leader><tab>h", ":-tabmove<CR>", { noremap = true })
+      -- move current tab to next position
+      vim.api.nvim_set_keymap("n", "<leader><tab>l", ":+tabmove<CR>", { noremap = true })
+      for i = 1, 9 do
+        vim.api.nvim_set_keymap("n", "<leader><tab>" .. i, ":tabn " .. i .. "<CR>", { noremap = true })
+        vim.api.nvim_set_keymap("n", "<M-" .. i .. ">", ":tabn " .. i .. "<CR>", { noremap = true })
+        vim.api.nvim_set_keymap("i", "<M-" .. i .. ">", "<C-O>:tabn " .. i .. "<CR>", { noremap = true })
+      end
+
+      -- configure neovide
+      if vim.g.neovide then
+        -- Put anything you want to happen only in Neovide here
+        vim.g.neovide_cursor_animate_command_line = false
+        vim.o.guifont = "RecursiveMnLnrSt Nerd Font,LXGW WenKai Mono:h18:"
+        vim.g.neovide_transparency = 0.9
+        vim.g.neovide_input_ime = true
+      end
     '';
   };
 }

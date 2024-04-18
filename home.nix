@@ -1,13 +1,14 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 let
   myvim_config = import ./dotfiles/vim/vim.nix { inherit pkgs; };
   myemacs =
-    pkgs.emacs29-pgtk.overrideAttrs (attrs: {
-      postInstall = (attrs.postInstall or "") + ''
-        rm $out/share/applications/emacs.desktop
-      '';
-    })
+    pkgs.emacs29-pgtk
+    # (pkgs.emacs-pgtk.overrideAttrs (attrs: {
+    #   postInstall = (attrs.postInstall or "") + ''
+    #     rm $out/share/applications/emacsclient.desktop
+    #   '';
+    # })) #.override { stdenv = pkgs.ccacheStdenv; }  # NOTE: this still buggy?
   ;
   rime-regexp = with pkgs;
     emacsPackages.trivialBuild {
@@ -26,9 +27,6 @@ let
 in
 {
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -52,6 +50,7 @@ in
     hstr
     starship
     xonsh
+    todoist
 
     emacs-lsp-booster
 
@@ -61,6 +60,8 @@ in
     lldb
     llvmPackages.mlir
     ccls
+    ccache
+    sccache
 
     ffmpegthumbnailer
     unar
@@ -71,6 +72,7 @@ in
     fzf
     zoxide
     nurl
+    grc
 
     universal-ctags
 
@@ -92,6 +94,9 @@ in
   ] ++ [
     (vim_configurable.customize myvim_config)
     jetbrains-toolbox
+  ] ++ [
+    # Beautify
+    kde-rounded-corners
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -110,6 +115,12 @@ in
     BROWSER = "google-chrome-stable";
   };
 
+  home.shellAliases = {
+    mg = "emacsclient -nw --eval '(magit)' 2>/dev/null";
+    e = "emacsclient -nw -a 'emacs -nw' 2>/dev/null";
+    nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   targets.genericLinux.enable = true;
@@ -117,16 +128,6 @@ in
   imports = [
     ./dotfiles/nvim/nvim.nix
   ];
-
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-configtool
-      fcitx5-rime
-      fcitx5-gtk
-      librime
-    ];
-  };
 
   programs.emacs = {
     enable = true;
@@ -192,6 +193,14 @@ in
     enable = true;
     plugins = with pkgs; [
       {
+        name = "tide";
+        src = fishPlugins.tide.src;
+      }
+      {
+        name = "grc";
+        src = fishPlugins.grc.src;
+      }
+      {
         name = "fish-ssh-agent";
         src = fetchFromGitHub {
           owner = "danhper";
@@ -200,11 +209,16 @@ in
           hash = "sha256-e94Sd1GSUAxwLVVo5yR6msq0jZLOn2m+JZJ6mvwQdLs=";
         };
       }
+      {
+        name = "fish-todoist";
+        src = fetchFromGitHub {
+          owner = "upamune";
+          repo = "fish-todoist";
+          rev = "6e46b00a1de8e54d114c3cf6c1fcca92ce85dc8e";
+          hash = "sha256-rP5/cU5WjlZV29Xrmbh0eVOteXwt9waWy6/sEfkfoL4=";
+        };
+      }
     ];
-    shellAliases = {
-      mg = "emacsclient -t --eval '(magit)'";
-      e = "emacsclient -t 2>/dev/null";
-    };
   };
 
   programs.bash = {
@@ -214,10 +228,6 @@ in
       source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
     '';
     profileExtra = lib.fileContents dotfiles/bash_profile;
-    shellAliases = {
-      mg = "emacs -nw --eval '(magit)'";
-      e = "emacs -nw 2>/dev/null";
-    };
   };
 
   programs.vscode = {
