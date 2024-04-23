@@ -3,7 +3,7 @@
 let
   myvim_config = import ./dotfiles/vim/vim.nix { inherit pkgs; };
   myemacs =
-    pkgs.emacs29-pgtk
+    pkgs.emacs-pgtk
     # (pkgs.emacs-pgtk.overrideAttrs (attrs: {
     #   postInstall = (attrs.postInstall or "") + ''
     #     rm $out/share/applications/emacsclient.desktop
@@ -73,6 +73,7 @@ in
     zoxide
     nurl
     grc
+    bat
 
     universal-ctags
 
@@ -138,6 +139,7 @@ in
       rime
       emacsql-sqlite
       pdf-tools
+      csv-mode
 
       rime-regexp
     ];
@@ -210,15 +212,18 @@ in
         };
       }
       {
-        name = "fish-todoist";
+        name = "fish-fzf-todoist";
         src = fetchFromGitHub {
-          owner = "upamune";
-          repo = "fish-todoist";
-          rev = "6e46b00a1de8e54d114c3cf6c1fcca92ce85dc8e";
-          hash = "sha256-rP5/cU5WjlZV29Xrmbh0eVOteXwt9waWy6/sEfkfoL4=";
+          owner = "mordax7";
+          repo = "fish-fzf-todoist";
+          rev = "0823b8250697d25b0b6b8a50b02eb63817a3b9c5";
+          hash = "sha256-o2mAx9GfuPpYszS3+sLljP7XCJv9rrHG7uzNbJ5x5mE=";
         };
       }
     ];
+    shellAbbrs = {
+      td = "todoist";
+    };
   };
 
   programs.bash = {

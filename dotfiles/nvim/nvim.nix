@@ -349,7 +349,7 @@ in
       if vim.g.neovide then
         -- Put anything you want to happen only in Neovide here
         vim.g.neovide_cursor_animate_command_line = false
-        vim.o.guifont = "RecursiveMnLnrSt Nerd Font,LXGW WenKai Mono:h18:"
+        vim.o.guifont = "0xProto Nerd Font Mono,LXGW WenKai Mono:h18:"
         vim.g.neovide_transparency = 0.9
         vim.g.neovide_input_ime = true
       end
