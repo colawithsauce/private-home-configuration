@@ -3,7 +3,16 @@
 let
   myvim_config = import ./dotfiles/vim/vim.nix { inherit pkgs; };
   myemacs =
-    pkgs.emacs-pgtk
+    pkgs.emacs-pgtk.overrideAttrs (old: {
+      patches =
+        (old.patches or []) ++
+        [
+          (pkgs.fetchpatch2 {
+            url = "https://lists.gnu.org/archive/html/emacs-devel/2023-12/txtiV7CV4R_cz.txt";
+            sha256="sha256-0oyQHzDY9kk5nwFBb3xnMJBL/I9ln5OAZb9uWyYtGmk=";
+          })
+        ];
+    })
     # (pkgs.emacs-pgtk.overrideAttrs (attrs: {
     #   postInstall = (attrs.postInstall or "") + ''
     #     rm $out/share/applications/emacsclient.desktop
