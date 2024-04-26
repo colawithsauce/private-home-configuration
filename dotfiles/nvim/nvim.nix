@@ -1,18 +1,8 @@
 { pkgs, lib, inputs, ... }:
 let
-  nixvim = import (builtins.fetchGit {
-    url = "https://github.com/nix-community/nixvim";
-    # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
-    # ref = "nixos-23.05";
-  });
   pretty-folds = pkgs.vimUtils.buildVimPlugin {
     name = "vim-pretty-folds";
-    src = pkgs.fetchFromGitHub {
-      owner = "luisdavim";
-      repo = "pretty-folds";
-      rev = "d17fbd125c282bc811ab161d95607f895b5ec51a";
-      hash = "sha256-Bc3i3MeD8LpfxnlW6GhOzH7ZtULGcUFROHVg7Zp8Uco=";
-    };
+    src = inputs.vim-pretty-folds;
   };
 in
 {

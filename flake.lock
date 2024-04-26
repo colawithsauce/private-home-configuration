@@ -42,6 +42,22 @@
         "type": "github"
       }
     },
+    "fish-ssh-agent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1605087262,
+        "narHash": "sha256-e94Sd1GSUAxwLVVo5yR6msq0jZLOn2m+JZJ6mvwQdLs=",
+        "owner": "danhper",
+        "repo": "fish-ssh-agent",
+        "rev": "fd70a2afdd03caf9bf609746bf6b993b9e83be57",
+        "type": "github"
+      },
+      "original": {
+        "owner": "danhper",
+        "repo": "fish-ssh-agent",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -493,13 +509,32 @@
         "type": "github"
       }
     },
+    "rime-regexp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705034254,
+        "narHash": "sha256-6its2dwdWXmcSPsYQI1L9FtppsZhraajKIx24HX213Y=",
+        "owner": "colawithsauce",
+        "repo": "rime-regexp.el",
+        "rev": "99558c033d5c8d4cc4d452959445a099fc71f898",
+        "type": "github"
+      },
+      "original": {
+        "owner": "colawithsauce",
+        "repo": "rime-regexp.el",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "emacs-overlay": "emacs-overlay",
+        "fish-ssh-agent": "fish-ssh-agent",
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs_3",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "rime-regexp": "rime-regexp",
+        "vim-pretty-folds": "vim-pretty-folds"
       }
     },
     "systems": {
@@ -559,6 +594,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "vim-pretty-folds": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1479761567,
+        "narHash": "sha256-Bc3i3MeD8LpfxnlW6GhOzH7ZtULGcUFROHVg7Zp8Uco=",
+        "owner": "luisdavim",
+        "repo": "pretty-folds",
+        "rev": "d17fbd125c282bc811ab161d95607f895b5ec51a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "luisdavim",
+        "repo": "pretty-folds",
         "type": "github"
       }
     }

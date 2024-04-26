@@ -17,6 +17,24 @@
     };
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    # emacs inputs
+    rime-regexp = {
+      url = "github:colawithsauce/rime-regexp.el";
+      flake = false;
+    };
+
+    # fish
+    fish-ssh-agent = {
+      url = "github:danhper/fish-ssh-agent";
+      flake = false;
+    };
+
+    # neovim
+    vim-pretty-folds = {
+      url = "github:luisdavim/pretty-folds";
+      flake = false;
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:

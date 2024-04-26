@@ -23,12 +23,7 @@ let
     emacsPackages.trivialBuild {
       pname = "rime-regexp";
       version = "master";
-      src = fetchFromGitHub {
-        owner = "colawithsauce";
-        repo = "rime-regexp.el";
-        rev = "99558c033d5c8d4cc4d452959445a099fc71f898";
-        hash = "sha256-6its2dwdWXmcSPsYQI1L9FtppsZhraajKIx24HX213Y=";
-      };
+      src = inputs.rime-regexp;
       buildInputs = with emacsPackages; [
         rime
       ];
@@ -213,21 +208,7 @@ in
       }
       {
         name = "fish-ssh-agent";
-        src = fetchFromGitHub {
-          owner = "danhper";
-          repo = "fish-ssh-agent";
-          rev = "fd70a2afdd03caf9bf609746bf6b993b9e83be57";
-          hash = "sha256-e94Sd1GSUAxwLVVo5yR6msq0jZLOn2m+JZJ6mvwQdLs=";
-        };
-      }
-      {
-        name = "fish-fzf-todoist";
-        src = fetchFromGitHub {
-          owner = "mordax7";
-          repo = "fish-fzf-todoist";
-          rev = "0823b8250697d25b0b6b8a50b02eb63817a3b9c5";
-          hash = "sha256-o2mAx9GfuPpYszS3+sLljP7XCJv9rrHG7uzNbJ5x5mE=";
-        };
+        src = inputs.fish-ssh-agent;
       }
     ];
     shellAbbrs = {
