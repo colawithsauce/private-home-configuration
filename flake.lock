@@ -29,11 +29,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1714266226,
-        "narHash": "sha256-HF/Evj21AwuHrSzCNh8e3HIjEd1/NbvzUv1XNi9hHSg=",
+        "lastModified": 1714295225,
+        "narHash": "sha256-Ltv5bz6St/P8+w6+zxdvSYUMNWGmav2F0Wua0+vv7tY=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "bcd6700ad46dcf331c668fae0dd2584db7cebe0e",
+        "rev": "12d9a5fe7968aa89ed37fdb28f32fdff29d01c0f",
         "type": "github"
       },
       "original": {
@@ -534,7 +534,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
         "rime-regexp": "rime-regexp",
-        "vim-pretty-folds": "vim-pretty-folds"
+        "vim-pretty-folds": "vim-pretty-folds",
+        "wubi98-data": "wubi98-data"
       }
     },
     "systems": {
@@ -610,6 +611,22 @@
       "original": {
         "owner": "luisdavim",
         "repo": "pretty-folds",
+        "type": "github"
+      }
+    },
+    "wubi98-data": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707484291,
+        "narHash": "sha256-kGAuqiaMTWtW54e4IbtolnFZAgGcU3kr1t5x4ZYGBkY=",
+        "owner": "yanhuacuo",
+        "repo": "98wubi",
+        "rev": "5bd9462c62fe1d36803fbea22c10c8823b5f0e26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yanhuacuo",
+        "repo": "98wubi",
         "type": "github"
       }
     }

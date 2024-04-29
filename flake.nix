@@ -23,6 +23,10 @@
       url = "github:colawithsauce/rime-regexp.el";
       flake = false;
     };
+    wubi98-data = {
+      url = "github:yanhuacuo/98wubi";
+      flake = false;
+    };
 
     # fish
     fish-ssh-agent = {

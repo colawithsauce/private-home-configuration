@@ -2,14 +2,15 @@
 
 let
   myvim_config = import ./dotfiles/vim/vim.nix { inherit pkgs; };
+  # wubi98-data = pkgs.rime-data.overrideAttrs { src = inputs.wubi98-data; };
   myemacs =
     pkgs.emacs-pgtk.overrideAttrs (old: {
       patches =
-        (old.patches or []) ++
+        (old.patches or [ ]) ++
         [
           (pkgs.fetchpatch2 {
             url = "https://lists.gnu.org/archive/html/emacs-devel/2023-12/txtiV7CV4R_cz.txt";
-            sha256="sha256-0oyQHzDY9kk5nwFBb3xnMJBL/I9ln5OAZb9uWyYtGmk=";
+            sha256 = "sha256-0oyQHzDY9kk5nwFBb3xnMJBL/I9ln5OAZb9uWyYtGmk=";
           })
         ];
     })
@@ -106,7 +107,14 @@ in
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file = { };
+  home.file = {
+    # "rime-data" = {
+    #   source = "${inputs.wubi98-data}";
+    #   target = ".local/share/rime";
+    #   recursive = false;
+    #   onChange = "rime_deployer --build ${inputs.wubi98-data}";
+    # };
+  };
 
   home.sessionPath = [
     "$HOME/.local/bin"
