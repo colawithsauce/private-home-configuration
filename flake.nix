@@ -15,8 +15,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    emacs.url = "github:nix-community/emacs-overlay";
 
     # emacs inputs
     rime-regexp = {
@@ -35,9 +34,9 @@
     };
 
     # neovim
-    vim-pretty-folds = {
-      url = "github:luisdavim/pretty-folds";
-      flake = false;
+    mynixvim = {
+      url = "path:./modules/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -45,8 +44,8 @@
     let
       system = "x86_64-linux";
       overlays = [
-        inputs.emacs-overlay.overlay
-        inputs.neovim-nightly-overlay.overlay
+        inputs.emacs.overlays.default
+        inputs.mynixvim.overlays.default
       ];
       pkgs = import nixpkgs { inherit system; inherit overlays; config.allowUnfree = true; };
     in

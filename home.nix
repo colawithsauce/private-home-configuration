@@ -98,6 +98,7 @@ in
 
     virtualbox
   ] ++ [
+    neovim
     (vim_configurable.customize myvim_config)
     jetbrains-toolbox
     anki-bin
@@ -139,10 +140,6 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   targets.genericLinux.enable = true;
-
-  imports = [
-    ./dotfiles/nvim/nvim.nix
-  ];
 
   programs.emacs = {
     enable = true;
