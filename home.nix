@@ -100,6 +100,8 @@ in
   ] ++ [
     (vim_configurable.customize myvim_config)
     jetbrains-toolbox
+    anki-bin
+    calibre
   ] ++ [
     # Beautify
     kde-rounded-corners
