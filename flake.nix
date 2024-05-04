@@ -34,9 +34,11 @@
     };
 
     # neovim
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     mynixvim = {
-      url = "path:./modules/nixvim";
+      url = "git+file:./modules/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.neovim-nightly.follows = "neovim-nightly";
     };
   };
 
@@ -45,6 +47,7 @@
       system = "x86_64-linux";
       overlays = [
         inputs.emacs.overlays.default
+        inputs.neovim-nightly.overlays.default
         inputs.mynixvim.overlays.default
       ];
       pkgs = import nixpkgs { inherit system; inherit overlays; config.allowUnfree = true; };

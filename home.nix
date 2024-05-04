@@ -1,7 +1,6 @@
 { config, pkgs, inputs, lib, ... }:
 
 let
-  myvim_config = import ./dotfiles/vim/vim.nix { inherit pkgs; };
   # wubi98-data = pkgs.rime-data.overrideAttrs { src = inputs.wubi98-data; };
   myemacs =
     pkgs.emacs-pgtk.overrideAttrs (old: {
@@ -67,6 +66,7 @@ in
     ccls
     ccache
     sccache
+    bear
 
     ffmpegthumbnailer
     unar
@@ -99,7 +99,7 @@ in
     virtualbox
   ] ++ [
     neovim
-    (vim_configurable.customize myvim_config)
+    neovide
     jetbrains-toolbox
     anki-bin
     calibre
@@ -129,11 +129,12 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "google-chrome-stable";
+    OPENAI_API_URL = "https://api.moonshot.cn/v1/chat/completions";
   };
 
   home.shellAliases = {
-    mg = "emacsclient -nw --eval '(magit)' 2>/dev/null";
-    e = "emacsclient -nw -a 'emacs -nw' 2>/dev/null";
+    mg = "emacs -nw --eval '(magit)' 2>/dev/null";
+    e = "emacs -nw 2>/dev/null";
     nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
   };
 
