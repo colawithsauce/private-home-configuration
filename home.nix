@@ -4,6 +4,8 @@ let
   # wubi98-data = pkgs.rime-data.overrideAttrs { src = inputs.wubi98-data; };
   myemacs =
     pkgs.emacs-pgtk.overrideAttrs (old: {
+      buildInputs = lib.lists.remove pkgs.xorg.libXi old.buildInputs;
+      configureFlags = lib.lists.remove "--with-xinput2" old.configureFlags ++ [ "--without-xim" ];
       patches =
         (old.patches or [ ]) ++
         [
@@ -19,12 +21,12 @@ let
     #   '';
     # })) #.override { stdenv = pkgs.ccacheStdenv; }  # NOTE: this still buggy?
   ;
-  rime-regexp = with pkgs;
-    emacsPackages.trivialBuild {
+  rime-regexp =
+    pkgs.emacsPackages.trivialBuild {
       pname = "rime-regexp";
       version = "master";
       src = inputs.rime-regexp;
-      buildInputs = with emacsPackages; [
+      buildInputs = with pkgs.emacsPackages; [
         rime
       ];
     };
@@ -99,13 +101,17 @@ in
     virtualbox
   ] ++ [
     neovim
-    neovide
     jetbrains-toolbox
     anki-bin
     calibre
+    obsidian
+    logseq
   ] ++ [
     # Beautify
     kde-rounded-corners
+  ] ++ [
+    # libs
+    jsoncpp
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -133,8 +139,11 @@ in
   };
 
   home.shellAliases = {
-    mg = "emacs -nw --eval '(magit)' 2>/dev/null";
-    e = "emacs -nw 2>/dev/null";
+    mg = "emacsclient -nw --eval '(magit)' 2>/dev/null";
+    e = "emacsclient -nw 2>/dev/null";
+    ee = "emacs -nw 2>/dev/null";
+    # vi = "nix run ~/.config/home-manager/modules/nixvim -- ";
+    # vim = "nix run ~/.config/home-manager/modules/nixvim -- ";
     nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
   };
 

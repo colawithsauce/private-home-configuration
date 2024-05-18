@@ -36,7 +36,7 @@
     # neovim
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     mynixvim = {
-      url = "git+file:./modules/nixvim";
+      url = "git+file:modules/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.neovim-nightly.follows = "neovim-nightly";
     };
