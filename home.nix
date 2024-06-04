@@ -15,11 +15,6 @@ let
           })
         ];
     })
-    # (pkgs.emacs-pgtk.overrideAttrs (attrs: {
-    #   postInstall = (attrs.postInstall or "") + ''
-    #     rm $out/share/applications/emacsclient.desktop
-    #   '';
-    # })) #.override { stdenv = pkgs.ccacheStdenv; }  # NOTE: this still buggy?
   ;
   rime-regexp =
     pkgs.emacsPackages.trivialBuild {
@@ -85,7 +80,7 @@ in
     universal-ctags
 
     nix-output-monitor
-    nixpkgs-fmt
+    # nixpkgs-fmt
     nixd
 
     typst
@@ -98,7 +93,7 @@ in
     proselint
     discount
 
-    virtualbox
+    # vmware-workstation
   ] ++ [
     neovim
     jetbrains-toolbox
@@ -108,7 +103,6 @@ in
     logseq
   ] ++ [
     # Beautify
-    kde-rounded-corners
   ] ++ [
     # libs
     jsoncpp
@@ -136,6 +130,7 @@ in
     EDITOR = "nvim";
     BROWSER = "google-chrome-stable";
     OPENAI_API_URL = "https://api.moonshot.cn/v1/chat/completions";
+    LSP_USE_PLISTS = "true";
   };
 
   home.shellAliases = {
@@ -150,6 +145,9 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   targets.genericLinux.enable = true;
+
+  i18n.inputMethod.enabled = "fcitx5";
+  i18n.inputMethod.fcitx5.addons = with pkgs; [ fcitx5-rime ];
 
   programs.emacs = {
     enable = true;
