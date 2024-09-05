@@ -62,10 +62,11 @@ in
     nixGLwrap = pkg: config.lib.nixGL.wrap pkg;
   in
   with pkgs; [
-    zsh
-    hstr
-    starship
-    xonsh
+    # zsh
+    # hstr
+    # starship
+    # tmux
+    # xonsh
     # todoist
 
     emacs-lsp-booster
@@ -158,6 +159,7 @@ in
     e = "emacsclient -nw 2>/dev/null";
     ee = "emacs -nw 2>/dev/null";
     ec = "emacsclient -c 2>/dev/null";
+    # vis = "nvim --embed --listen 0.0.0.0:4322";
     # vi = "nix run ~/.config/home-manager/modules/nixvim -- ";
     # vim = "nix run ~/.config/home-manager/modules/nixvim -- ";
     # nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
@@ -203,58 +205,76 @@ in
     };
   };
 
-  programs.autojump = {
-    enable = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-  };
+  programs = {
+    hstr = {
+      enable = true;
+      enableBashIntegration = true;
+    };
 
-  programs.eza = {
-    enable = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-  };
+    autojump = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
 
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = true;
-  };
+    eza = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
 
-  programs.starship = {
-    enable = true;
-    enableBashIntegration = true;
-  };
+    tmux = {
+      enable = true;
+      clock24 = true;
+      baseIndex = 1;
+      newSession = true;
+      prefix = "C-z";
+      terminal = "tmux-256color";
+      secureSocket = true;
+      sensibleOnTop = true;
+    };
 
-  # programs.nix-index = {
-  #   enable = true;
-  #   enableBashIntegration = true;
-  #   enableFishIntegration = true;
-  # };
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+    };
 
-  programs.yazi = {
-    enable = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-  };
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+    };
 
-  programs.fish = {
-    enable = true;
-    plugins = with pkgs; [
-      # {
-      #   name = "tide";
-      #   src = fishPlugins.tide.src;
-      # }
-      {
-        name = "grc";
-        src = fishPlugins.grc.src;
-      }
-    ];
-  };
+    # nix-index = {
+    #   enable = true;
+    #   enableBashIntegration = true;
+    #   enableFishIntegration = true;
+    # };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    profileExtra = lib.fileContents dotfiles/bash_profile;
+    yazi = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
+
+    fish = {
+      enable = true;
+      plugins = with pkgs; [
+        # {
+        #   name = "tide";
+        #   src = fishPlugins.tide.src;
+        # }
+        {
+          name = "grc";
+          src = fishPlugins.grc.src;
+        }
+      ];
+    };
+
+    bash = {
+      enable = true;
+      enableCompletion = true;
+      profileExtra = lib.fileContents dotfiles/bash_profile;
+    };
   };
 
 }

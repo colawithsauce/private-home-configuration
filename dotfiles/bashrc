@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
-export PATH=$PATH:$HOME/.config/emacs/bin:$HOME/.local/bin
-
-eval "$(hstr --show-bash-configuration)"
 export HSTR_CONFIG=hicolor
 export HSTR_CONFIG+=,prompt-bottom
 export HSTR_CONFIG+=,help-on-opposite-side
 export HSTR_CONFIG+=,raw-history-view
 export HSTR_CONFIG+=,substring-matching
 export HSTR_CONFIG+=,skip-favorites-comments
-
-eval "$(starship init bash)"
