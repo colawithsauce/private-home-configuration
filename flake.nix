@@ -33,13 +33,14 @@
       flake = false;
     };
 
+    nixGL = {
+      url = "github:nix-community/nixGL/310f8e49a149e4c9ea52f1adf70cdc768ec53f8a";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # neovim
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    mynixvim = {
-      url = "git+file:modules/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.neovim-nightly.follows = "neovim-nightly";
-    };
+    # mynixvim = { url = "git+file:./modules/nixvim/"; inputs.nixpkgs.follows = "nixpkgs"; inputs.neovim-nightly.follows = "neovim-nightly"; };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
@@ -48,12 +49,11 @@
       overlays = [
         inputs.emacs.overlays.default
         inputs.neovim-nightly.overlays.default
-        inputs.mynixvim.overlays.default
       ];
       pkgs = import nixpkgs { inherit system; inherit overlays; config.allowUnfree = true; };
     in
     {
-      homeConfigurations."colawithsauce" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."colabrewsred" = home-manager.lib.homeManagerConfiguration rec {
         inherit pkgs;
 
         # Specify your home configuration modules here, for example,

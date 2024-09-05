@@ -3,7 +3,7 @@
 let
   # wubi98-data = pkgs.rime-data.overrideAttrs { src = inputs.wubi98-data; };
   myemacs =
-    pkgs.emacs-pgtk.overrideAttrs (old: {
+    pkgs.emacs-git.overrideAttrs (old: {
       buildInputs = lib.lists.remove pkgs.xorg.libXi old.buildInputs;
       configureFlags = lib.lists.remove "--with-xinput2" old.configureFlags ++ [ "--without-xim" ];
       patches =
@@ -25,15 +25,26 @@ let
         rime
       ];
     };
+  nixGLIntel = inputs.nixGL.packages."${pkgs.system}".nixGLIntel;
 in
 {
   nixpkgs.overlays = [
   ];
 
+  imports = [
+    ./dotfiles/nixvim.nix
+    (builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
+      sha256 = "01dkfr9wq3ib5hlyq9zq662mp0jl42fw3f6gd2qgdf8l8ia78j7i";
+    })
+  ];
+
+  nixGL.prefix = "${nixGLIntel}/bin/nixGLIntel";
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "colawithsauce";
-  home.homeDirectory = "/home/colawithsauce";
+  home.username = "colabrewsred";
+  home.homeDirectory = "/home/colabrewsred";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -46,26 +57,30 @@ in
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages = 
+  let
+    nixGLwrap = pkg: config.lib.nixGL.wrap pkg;
+  in
+  with pkgs; [
     zsh
     hstr
     starship
     xonsh
-    todoist
+    # todoist
 
     emacs-lsp-booster
 
-    llvm
-    clang
+    # llvm
+    # clang
     clang-tools
-    lldb
-    llvmPackages.mlir
-    ccls
-    ccache
+    # lldb
+    # llvmPackages.mlir
+    # ccls
+    # ccache
     sccache
     bear
 
-    ffmpegthumbnailer
+    # ffmpegthumbnailer
     unar
     jq
     poppler
@@ -76,6 +91,7 @@ in
     nurl
     grc
     bat
+    fastfetch
 
     universal-ctags
 
@@ -92,15 +108,19 @@ in
     mdl
     proselint
     discount
+    dockerfile-language-server-nodejs
 
     # vmware-workstation
   ] ++ [
-    neovim
-    jetbrains-toolbox
-    anki-bin
-    calibre
-    obsidian
-    logseq
+    nixGLIntel
+    # (nixGLwrap neovide)
+    # (nixGLwrap zed-editor)
+    # (nixGLwrap kitty)
+    # jetbrains-toolbox
+    # anki-bin
+    # calibre
+    # obsidian
+    # logseq
   ] ++ [
     # Beautify
   ] ++ [
@@ -128,7 +148,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = "google-chrome-stable";
+    # BROWSER = "google-chrome-stable";
     OPENAI_API_URL = "https://api.moonshot.cn/v1/chat/completions";
     LSP_USE_PLISTS = "true";
   };
@@ -137,9 +157,10 @@ in
     mg = "emacsclient -nw --eval '(magit)' 2>/dev/null";
     e = "emacsclient -nw 2>/dev/null";
     ee = "emacs -nw 2>/dev/null";
+    ec = "emacsclient -c 2>/dev/null";
     # vi = "nix run ~/.config/home-manager/modules/nixvim -- ";
     # vim = "nix run ~/.config/home-manager/modules/nixvim -- ";
-    nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
+    # nvrun = "DRI_PRIME=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia";
   };
 
   # Let Home Manager install and manage itself.
@@ -159,6 +180,7 @@ in
       emacsql-sqlite
       pdf-tools
       csv-mode
+      # telega
 
       rime-regexp
     ];
@@ -198,11 +220,16 @@ in
     enableBashIntegration = true;
   };
 
-  programs.nix-index = {
+  programs.starship = {
     enable = true;
     enableBashIntegration = true;
-    enableFishIntegration = true;
   };
+
+  # programs.nix-index = {
+  #   enable = true;
+  #   enableBashIntegration = true;
+  #   enableFishIntegration = true;
+  # };
 
   programs.yazi = {
     enable = true;
@@ -213,41 +240,23 @@ in
   programs.fish = {
     enable = true;
     plugins = with pkgs; [
-      {
-        name = "tide";
-        src = fishPlugins.tide.src;
-      }
+      # {
+      #   name = "tide";
+      #   src = fishPlugins.tide.src;
+      # }
       {
         name = "grc";
         src = fishPlugins.grc.src;
       }
-      {
-        name = "fish-ssh-agent";
-        src = inputs.fish-ssh-agent;
-      }
     ];
-    shellAbbrs = {
-      td = "todoist";
-    };
   };
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    bashrcExtra = lib.fileContents dotfiles/bashrc + ''
-      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
-    '';
     profileExtra = lib.fileContents dotfiles/bash_profile;
   };
 
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      vscodevim.vim
-      mgt19937.typst-preview
-      nvarner.typst-lsp
-    ];
-  };
 }
 
 

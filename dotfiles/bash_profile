@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 # Added by Toolbox App
 export PATH="$PATH:/home/colawithsauce/.local/share/JetBrains/Toolbox/scripts"
+
+if [ -z "$DISPLAY" ]; then 
+    export DISPLAY=192.168.223.1:0
+fi

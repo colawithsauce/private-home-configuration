@@ -1,0 +1,2 @@
+[submodule "./modules/nixvim/"]
+	url = https://github.com/colawithsauce/my-nixvim
