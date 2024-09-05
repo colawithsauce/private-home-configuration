@@ -3,7 +3,7 @@
 let
   # wubi98-data = pkgs.rime-data.overrideAttrs { src = inputs.wubi98-data; };
   myemacs =
-    pkgs.emacs-git.overrideAttrs (old: {
+    pkgs.emacs-pgtk.overrideAttrs (old: {
       buildInputs = lib.lists.remove pkgs.xorg.libXi old.buildInputs;
       configureFlags = lib.lists.remove "--with-xinput2" old.configureFlags ++ [ "--without-xim" ];
       patches =
